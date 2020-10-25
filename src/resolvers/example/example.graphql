@@ -1,0 +1,12 @@
+type ExampleResponse {
+  success: Boolean
+  message: String
+}
+
+type Mutation {
+  exampleMutation(user_id: String!): ExampleResponse
+}
+
+type Query {
+  exampleQuery(user_id: String!): ExampleResponse
+}

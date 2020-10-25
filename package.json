@@ -1,0 +1,62 @@
+{
+  "name": "apollo-express-template",
+  "version": "1.0.0",
+  "description": "apollo/express backend template",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "nodemon --watch src ./src/server.js",
+    "dev:down": "lsof -nti:3001 | xargs kill -9",
+    "test": "jest --coverage",
+    "prettier": "pretty-quick --staged",
+    "prettier:all": "prettier --write **/*.js",
+    "lint": "eslint ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "chaycarnell@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.11.0",
+    "axios": "^0.18.0",
+    "compression": "^1.7.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.16.4",
+    "graphql": "^15.3.0",
+    "helmet": "^3.21.1",
+    "jwks-rsa": "^1.11.0",
+    "module-alias": "^2.2.2",
+    "moment": "^2.24.0",
+    "mongodb": "^3.2.6",
+    "schemaglue": "^4.0.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^5.8.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^1.1.2",
+    "jest": "^26.4.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^1.14.3",
+    "pretty-quick": "^1.8.0"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@utils": "src/utils",
+    "@db": "src/db",
+    "@services": "src/services",
+    "@api": "src/api",
+    "@pubsub": "src/pubsub"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@root(.*)$": "<rootDir>",
+      "^@utils(.*)$": "<rootDir>/src/utils$1",
+      "^@engine(.*)$": "<rootDir>/src/engine$1"
+    }
+  }
+}

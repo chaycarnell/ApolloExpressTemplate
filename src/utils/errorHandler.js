@@ -2,11 +2,11 @@
 const errorTypes = {
   UNAUTHENTICATED: { code: 401, message: 'UNAUTHENTICATED' },
   FORBIDDEN: { code: 403, message: 'FORBIDDEN' },
-  UNKNOWN: { code: 500, message: 'UNKNOWN ERROR' }
+  UNKNOWN: { code: 500, message: 'UNKNOWN ERROR' },
 };
 
 // Derive error response from GraphQL error
-const searchOriginalError = error => {
+const searchOriginalError = (error) => {
   if (error.originalError) {
     return searchOriginalError(error.originalError);
   }
@@ -17,8 +17,8 @@ const searchOriginalError = error => {
 };
 
 // Handle errors
-const errorHandler = error => {
-  const getError = errorCode => {
+const errorHandler = (error) => {
+  const getError = (errorCode) => {
     if (!errorTypes[errorCode]) {
       return errorTypes.UNKNOWN;
     }
@@ -32,7 +32,7 @@ const errorHandler = error => {
   const responseObject = getError(extensionCode);
   return {
     status: responseObject.code,
-    message: responseObject.message
+    message: responseObject.message,
   };
 };
 

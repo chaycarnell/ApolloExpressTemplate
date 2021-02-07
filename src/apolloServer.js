@@ -16,18 +16,18 @@ const initApollo = (server, app) => {
     typeDefs: schema,
     resolvers: resolver,
     playground: true,
-    formatError: e => errorHandler(e),
+    formatError: (e) => errorHandler(e),
     logger,
     plugins: [LoggingPlugin],
     subscriptions: {
       keepAlive: 1000,
-      onConnect: async (connectionParams, webSocket, context) => {
+      onConnect: async (connectionParams) => {
         const user = await validateToken(connectionParams.authToken);
-        if (!user) throw new AuthenticationError('you must be logged in');
+        if (!user) throw new AuthenticationError('MUST AUTHENTICATE');
       },
-      onDisconnect: (webSocket, context) => {
+      onDisconnect: () => {
         // ...
-      }
+      },
     },
     context: async ({ req, connection }) => {
       if (connection) return connection.context;
@@ -35,20 +35,20 @@ const initApollo = (server, app) => {
       const token = req.headers.authorization || null;
       // Decode JWT token to user user
       const user = await validateToken(token);
-      // If no user throw auth error
-      if (!user) throw new AuthenticationError('AUTHENTICATE');
+      // OPTIONAL: If no user throw auth error
+      // if (!user) throw new AuthenticationError('MUST AUTHENTICATE');
       // Return validated user
       return user;
-    }
+    },
   });
   // Middleware: GraphQL
   apolloServer.applyMiddleware({
-    app
+    app,
   });
   // Apply subscription handlers
   apolloServer.installSubscriptionHandlers(server);
 };
 
 module.exports = {
-  initApollo
+  initApollo,
 };

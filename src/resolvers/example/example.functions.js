@@ -1,11 +1,12 @@
 /**
  * Return an example response
- * @param {*} user_id user id
+ * @param {*} userId user id
  */
-const exampleResponse = async ({ user_id }) => {
-  return { sucess: true, message: `examle success ${user_id}` };
-};
+const exampleResponse = async ({ userId }) => ({
+  sucess: true,
+  message: `examle success ${userId}`,
+});
 
 module.exports = {
-  exampleResponse
+  exampleResponse,
 };

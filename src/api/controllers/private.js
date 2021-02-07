@@ -4,7 +4,7 @@ module.exports = {
       success: true,
       status: 200,
       message: 'example private response',
-      data: {}
+      data: {},
     });
-  }
+  },
 };

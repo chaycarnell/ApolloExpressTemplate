@@ -1,5 +1,4 @@
 {
-  "eslint.enable": true,
   "editor.codeActionsOnSave": { "source.fixAll.prettier": true },
   "editor.formatOnSave": true,
   "[markdown]": {

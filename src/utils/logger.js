@@ -1,31 +1,31 @@
 const logger = {
   debug: (msg, context) =>
-    console.log(
+    console.debug(
       `[DEBUG]: Timestamp: ${new Date().toISOString()}`,
       msg,
-      context || ''
+      context || '',
     ),
   info: (msg, context) =>
-    console.log(
+    console.info(
       `[INFO]: Timestamp: ${new Date().toISOString()}`,
       msg,
-      context || ''
+      context || '',
     ),
   warn: (msg, warning, context) =>
-    console.log(
+    console.warn(
       `[WARN]: Timestamp: ${new Date().toISOString()}`,
       msg,
       'Warning: ',
       warning || '',
       'Context: ',
-      context || ''
+      context || '',
     ),
   error: (msg, context) =>
     console.error(
       `[ERROR]: Timestamp: ${new Date().toISOString()}`,
       msg,
-      context || ''
-    )
+      context || '',
+    ),
 };
 
 module.exports = logger;

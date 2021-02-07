@@ -3,20 +3,28 @@ const jwksClient = require('jwks-rsa');
 const jwt = require('jsonwebtoken');
 
 /**
+ * Validates a request matches the authenticated userId
+ * @param requestUserId the request payload userId
+ * @param tokenUserId the authenticated userId from JWT
+ */
+const authorizeUser = (requestUserId, tokenUserId) =>
+  tokenUserId && tokenUserId === requestUserId;
+
+/**
  * Validate a request user_id against the token user_id to authorize requests
  * @param {*} args request arguments
  * @param {*} ctx request context
  */
 const authorize = (args, ctx) => {
-  if (!authorizeUser(args.user_id, ctx.user_id))
+  if (!authorizeUser(args.user_id, ctx.user_id)) {
     // Throw GraphQL forbidden error
     throw new ForbiddenError('UNAUTHORIZED');
-  return;
+  }
 };
 
 // Initialise JWKS client using auth keystore address
 const client = jwksClient({
-  jwksUri: process.env.AUTH_KEY_STORE
+  jwksUri: process.env.AUTH_KEY_STORE,
 });
 
 /**
@@ -34,15 +42,15 @@ const getKey = (header, callback) =>
  * Validates a JWT id_token against the auth server that issued it to the client
  * @param token JWT id_token to be validate against auth keystore
  */
-const validateToken = async token => {
+const validateToken = async (token) => {
   if (!token) return null;
-  const user = await new Promise(resolve => {
+  const user = await new Promise((resolve) => {
     jwt.verify(
       token,
       getKey,
       {
         issuer: process.env.AUTH_BASE_URL,
-        algorithms: ['RS256']
+        algorithms: ['RS256'],
       },
       (error, decoded) => {
         if (error) {
@@ -51,7 +59,7 @@ const validateToken = async token => {
         if (decoded) {
           resolve(decoded);
         }
-      }
+      },
     );
   });
   return user;
@@ -66,16 +74,15 @@ const validateRequest = async (req, res, next) => {
       success: false,
       status: 401,
       message: 'Authentication failed',
-      data: {}
+      data: {},
     });
-  } else {
-    req.user = decoded;
-    return next();
   }
+  req.user = decoded;
+  return next();
 };
 
 module.exports = {
   authorize,
   validateToken,
-  validateRequest
+  validateRequest,
 };
